@@ -1,0 +1,32 @@
+\documentclass[UTF8,a4paper,12pt,fontset=fandol]{ctexart}
+
+\input{config/packages}
+\input{config/commands}
+\addbibresource{refs/references.bib}
+
+\title{课程报告}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+    摘要摘要摘要
+\end{abstract}
+\noindent\textbf{关键词：} 关键词1、关键词2
+\tableofcontents
+\clearpage
+
+\input{sections/introduction}
+\input{sections/theory}
+\input{sections/methods}
+\input{sections/results}
+\input{sections/conclusion}
+
+\printbibliography
+\appendix
+\counterwithin{figure}{section} 
+\renewcommand{\thefigure}{\thesection.\arabic{figure}} 
+\setcounter{figure}{0}   
+\input{sections/appendix}
+\end{document}

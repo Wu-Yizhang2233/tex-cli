@@ -17,7 +17,7 @@ tex run --xelatex         # 只运行一遍 XeLaTeX
 tex --help
 ```
 
-`tex init` 调用配套的 `init-latex.sh`；重复初始化只补齐缺失文件。
+`tex init` 调用配套的 Python 程序；重复初始化只补齐缺失文件。
 `tex run` 向上寻找最近的项目根目录，调用该项目的 `scripts/build_latex.sh`，
 保持项目自己的编译规则，并传递编译退出状态。在 sections/ 等子目录也可运行。
 模板默认输出 `output/main.pdf`，辅助文件放入 `output/.latex_aux/`。
@@ -28,8 +28,7 @@ tex --help
 当前终端切换目录。普通独立可执行文件无法修改父 shell 的工作目录。
 工具自身不修改 shell 的 `set -e`、`set -u` 等选项。
 
-安装包由 `tex.sh` 和 `init-latex.sh` 组成，构建脚本已内嵌在初始化脚本中，
-创建项目时写出。运行时无需 Python、网络或原仓库目录；编译需要 MacTeX/TeX Live。
+安装包由 `tex.sh`、`tex_cli.py` 和 `templates/` 组成。需要 Python 3；运行时无需网络或原仓库目录，编译需要 MacTeX/TeX Live。
 修改仓库中的模板后，重新运行 `bash install-tex.sh` 即可更新安装副本。
 现有项目中的文件不会被更新安装覆盖。
 
@@ -49,5 +48,5 @@ source 行，再删除安装目录；当前终端可执行 `unset -f tex`。
 
 ## 验证
 
-`python3 -m unittest discover -s tests -p 'test_tex_cli.py' -v` 检查 Bash/zsh
+`python3 -m unittest discover -s tests -v` 检查 Bash/zsh
 下的目录切换、默认名称、路径引用、已有文件保留、失败返回以及独立安装。

@@ -1,0 +1,55 @@
+# Generated output (PDF and auxiliary files)
+/output/
+/build/
+
+# LaTeX auxiliary files, including accidental builds in the source directory
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex
+*.synctex.gz
+*.xdv
+*.dvi
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.idx
+*.ind
+*.ilg
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.glgdefs
+*.ist
+*.nav
+*.snm
+*.vrb
+*.thm
+*.loe
+*.lol
+/main.pdf
+
+# OS / editor temporary files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Python analysis scripts
+__pycache__/
+*.py[cod]
+.venv/
+.ipynb_checkpoints/
+
+# Do NOT ignore *.pdf globally: figures/*.pdf are source assets.
+# Keep .vscode/settings.json under version control.

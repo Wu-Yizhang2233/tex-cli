@@ -1,0 +1,52 @@
+{
+    "latex-workshop.latex.outDir": "%DIR%/output",
+    "latex-workshop.latex.auxDir": "%DIR%/output/.latex_aux",
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk-custom",
+            "command": "bash",
+            "args": ["%DIR%/scripts/build_latex.sh", "%DOC_EXT%"]
+        },
+        {
+            "name": "xelatex",
+            "command": "bash",
+            "args": [
+                "%DIR%/scripts/build_latex.sh",
+                "--xelatex",
+                "%DOC_EXT%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk (recommended)",
+            "tools": ["latexmk-custom"]
+        },
+        {
+            "name": "xelatex (single pass)",
+            "tools": ["xelatex"]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "latexmk (recommended)",
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.autoBuild.interval": 1000,
+    "latex-workshop.latex.autoClean.run": "never",
+    "latex-workshop.latex.clean.method": "glob",
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.aux", "*.bbl", "*.bcf", "*.blg", "*.run.xml",
+        "*.idx", "*.ind", "*.ilg", "*.lof", "*.lot", "*.out", "*.toc",
+        "*.acn", "*.acr", "*.alg", "*.glg", "*.glo", "*.gls", "*.ist",
+        "*.fls", "*.log", "*.fdb_latexmk", "*.xdv", "*.dvi",
+        "*.nav", "*.snm", "*.vrb"
+    ],
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.intellisense.package.enabled": true,
+    "latex-workshop.message.error.show": false,
+    "latex-workshop.message.warning.show": false,
+    "files.exclude": {
+        "**/.DS_Store": true,
+        "**/build": true,
+        "**/output/.latex_aux": true,
+        "**/__pycache__": true
+    }
+}
