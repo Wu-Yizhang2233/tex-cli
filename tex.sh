@@ -14,16 +14,16 @@ function tex {
         case "${1:-}" in
             -h|--help) command python3 "$_TEX_CLI_HOME/tex_cli.py" init "$@"; return $? ;;
         esac
-        local project_path
-        if [ "${1:-}" = -- ]; then
-            project_path=${2:-latex-project}
-        else
-            project_path=${1:-latex-project}
-        fi
-        if command python3 "$_TEX_CLI_HOME/tex_cli.py" init "$@"; then
+        local project_path result_file tex_status
+        result_file=$(command mktemp "${TMPDIR:-/tmp}/tex-cli.XXXXXXXX") || return 1
+        if TEX_CLI_RESULT_FILE="$result_file" command python3 "$_TEX_CLI_HOME/tex_cli.py" init "$@"; then
+            IFS= read -r project_path < "$result_file"
+            command rm -f -- "$result_file"
             builtin cd -- "$project_path"
         else
-            return $?
+            tex_status=$?
+            command rm -f -- "$result_file"
+            return "$tex_status"
         fi
     else
         command python3 "$_TEX_CLI_HOME/tex_cli.py" "$@"

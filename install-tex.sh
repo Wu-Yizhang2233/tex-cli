@@ -20,6 +20,8 @@ if [[ "$source_dir" != "$install_dir" ]]; then
     cp -- "$source_dir/tex_cli.py" "$install_dir/tex_cli.py"
     mkdir -p -- "$install_dir/templates"
     cp -R -- "$source_dir/templates/." "$install_dir/templates/"
+    mkdir -p -- "$install_dir/project_types"
+    cp -R -- "$source_dir/project_types/." "$install_dir/project_types/"
 fi
 
 # Single quotes preserve UTF-8 even with macOS Bash 3.2's C locale.
