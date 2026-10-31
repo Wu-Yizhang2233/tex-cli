@@ -372,8 +372,8 @@ write_new README.md <<'EOF'
 在本项目根目录运行：
 
 ```bash
-# 已安装 tex 命令时：
-tex run
+# 已安装 texv 命令时：
+texv run
 # 或使用项目自带脚本：
 bash scripts/build_latex.sh
 # 或直接读取 .latexmkrc：

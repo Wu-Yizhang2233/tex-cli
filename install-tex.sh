@@ -32,7 +32,7 @@ if [[ ! -f "$shell_rc" ]] || ! grep -Fqx -- "$source_line" "$shell_rc"; then
     if [[ -f "$shell_rc" && ! -e "$shell_rc.before-tex" ]]; then
         cp -p -- "$shell_rc" "$shell_rc.before-tex"
     fi
-    printf '\n# tex: LaTeX project commands (tex init / tex run)\n%s\n' "$source_line" >> "$shell_rc"
+    printf '\n# texv: LaTeX project commands (texv init / texv run)\n%s\n' "$source_line" >> "$shell_rc"
 fi
 printf 'Installed: %s\nShell configuration: %s\nActivate in the current terminal:\n  %s\n' \
     "$install_dir" "$shell_rc" "$source_line"

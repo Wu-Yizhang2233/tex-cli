@@ -4,11 +4,11 @@ if [ -n "${ZSH_VERSION:-}" ]; then
 elif [ -n "${BASH_VERSION:-}" ]; then
     _TEX_CLI_HOME=$(builtin cd -- "$(command dirname -- "${BASH_SOURCE[0]}")" && pwd -P) || return
 else
-    printf 'tex requires Bash or zsh.\n' >&2
+    printf 'texv requires Bash or zsh.\n' >&2
     return 1
 fi
 
-function tex {
+function texv {
     if [ "${1:-}" = init ]; then
         shift
         case "${1:-}" in

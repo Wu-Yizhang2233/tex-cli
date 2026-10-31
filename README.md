@@ -1,4 +1,4 @@
-# tex 命令行工具
+# texv 命令行工具
 
 ## 安装与使用
 
@@ -8,27 +8,27 @@
 安装后打开新终端，或在当前终端执行安装程序输出的 `source` 命令。
 
 ```bash
-tex init                  # 创建 latex-project/ 并进入
-tex init --mini           # 创建 mini-project/ 并进入
-tex init --mini note      # 单个 main.tex 的小型项目
-tex init --slides         # 创建 slides-project/ 并进入
-tex init --slides talk    # 创建 talk/ 演示文稿项目
-tex init my-paper         # 创建 my-paper/ 并进入
-tex init "中文报告"        # 支持中文、空格和绝对路径
-tex run                   # 编译 main.tex
-tex run report.tex        # 编译项目根目录中的另一个主文件
-tex run --xelatex         # 只运行一遍 XeLaTeX
-tex --help
+texv init                  # 创建 latex-project/ 并进入
+texv init --mini           # 创建 mini-project/ 并进入
+texv init --mini note      # 单个 main.tex 的小型项目
+texv init --slides         # 创建 slides-project/ 并进入
+texv init --slides talk    # 创建 talk/ 演示文稿项目
+texv init my-paper         # 创建 my-paper/ 并进入
+texv init "中文报告"        # 支持中文、空格和绝对路径
+texv run                   # 编译 main.tex
+texv run report.tex        # 编译项目根目录中的另一个主文件
+texv run --xelatex         # 只运行一遍 XeLaTeX
+texv --help
 ```
 
-`tex init` 调用配套的 Python 程序；默认创建原有的分章节结构，`--mini` 创建单个 main.tex 的结构，`--slides` 创建 Beamer 幻灯片结构；三者共享编辑器、编译和 Git 配置。若目标名称已存在，将提示并依次选择名称后的 `(1)`、`(2)` 等，原目录保持不变。
-`tex run` 向上寻找最近的项目根目录，调用该项目的 `scripts/build_latex.sh`，
+`texv init` 调用配套的 Python 程序；默认创建原有的分章节结构，`--mini` 创建单个 main.tex 的结构，`--slides` 创建 Beamer 幻灯片结构；三者共享编辑器、编译和 Git 配置。若目标名称已存在，将提示并依次选择名称后的 `(1)`、`(2)` 等，原目录保持不变。
+`texv run` 向上寻找最近的项目根目录，调用该项目的 `scripts/build_latex.sh`，
 保持项目自己的编译规则，并传递编译退出状态。在 sections/ 等子目录也可运行。
 模板默认输出 `output/main.pdf`，辅助文件放入 `output/.latex_aux/`。
 
 ## 实现与更新
 
-`tex` 是一个 Bash/zsh 函数：只有在当前 shell 中执行，`tex init` 才能让
+`texv` 是一个 Bash/zsh 函数：只有在当前 shell 中执行，`texv init` 才能让
 当前终端切换目录。普通独立可执行文件无法修改父 shell 的工作目录。
 工具自身不修改 shell 的 `set -e`、`set -u` 等选项。
 
@@ -44,11 +44,11 @@ bash install-tex.sh ~/.local/share/tex-cli ~/.bashrc
 # macOS 登录 Bash 可使用 ~/.bash_profile
 ```
 
-MacTeX 已有一个名为 `tex` 的底层引擎。安装后交互终端中的 `tex` 指向本工具；
-`command tex` 仍可调用原引擎，系统可执行文件和 PATH 均未改动。
+`texv` 不覆盖 MacTeX 的 `tex` 引擎。原有安装路径和 `tex.sh` 文件名保留，已有加载配置无需更改。
+已打开的终端如果仍保留旧的 `tex` 函数，可执行 `unset -f tex` 恢复对原引擎的调用，然后执行 `source ~/.local/share/tex-cli/tex.sh` 加载新命令。
 
-卸载时删除启动文件中标注 `tex: LaTeX project commands` 的注释及紧随其后的
-source 行，再删除安装目录；当前终端可执行 `unset -f tex`。
+卸载时删除启动文件中标注 `texv: LaTeX project commands`（旧安装可能标注为 `tex: LaTeX project commands`） 的注释及紧随其后的
+source 行，再删除安装目录；当前终端可执行 `unset -f texv`。
 
 ## 验证
 

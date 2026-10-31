@@ -7,11 +7,20 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 
 class CliTests(unittest.TestCase):
+    def test_source_exposes_texv_without_overwriting_tex(self):
+        for shell in ('bash', 'zsh'):
+            with self.subTest(shell=shell):
+                cmd = 'tex() { printf original; }; source "$1"; texv --help; tex'
+                result = subprocess.run([shell, '-c', cmd, '_', str(ROOT/'tex.sh')], capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertIn('Usage: texv <command>', result.stdout)
+                self.assertTrue(result.stdout.endswith('original'))
+
     def test_init_creates_project_and_changes_shell_directory(self):
         for shell in ('bash', 'zsh'):
             with self.subTest(shell=shell), tempfile.TemporaryDirectory() as tmp:
                 target = Path(tmp) / '中文 report'
-                cmd = 'source "$1"; tex init "$2" >/dev/null; printf "\\nCWD=%s" "$PWD"'
+                cmd = 'source "$1"; texv init "$2" >/dev/null; printf "\\nCWD=%s" "$PWD"'
                 p = subprocess.run([shell, '-c', cmd, '_', str(ROOT/'tex.sh'), str(target)], text=True, capture_output=True)
                 self.assertEqual(p.returncode, 0, p.stderr)
                 self.assertIn('CWD='+str(target), p.stdout)
@@ -34,7 +43,7 @@ class ProjectTypeTests(unittest.TestCase):
         for shell in ('bash', 'zsh'):
             with self.subTest(shell=shell), tempfile.TemporaryDirectory() as tmp:
                 target = Path(tmp) / 'mini 中文'
-                cmd = 'source "$1"; tex init --mini "$2" >/dev/null; printf "%s" "$PWD"'
+                cmd = 'source "$1"; texv init --mini "$2" >/dev/null; printf "%s" "$PWD"'
                 result = subprocess.run([shell, '-c', cmd, '_', str(ROOT/'tex.sh'), str(target)], capture_output=True, text=True)
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertEqual(result.stdout, str(target))
@@ -58,7 +67,7 @@ class CollisionTests(unittest.TestCase):
                 (base/'mini-project').mkdir()
                 (base/'mini-project'/'main.tex').write_text('original')
                 (base/'mini-project(1)').mkdir()
-                cmd = 'source "$1"; cd "$2"; tex init --mini >/dev/null; printf "%s" "$PWD"'
+                cmd = 'source "$1"; cd "$2"; texv init --mini >/dev/null; printf "%s" "$PWD"'
                 result = subprocess.run([shell, '-c', cmd, '_', str(ROOT/'tex.sh'), tmp], capture_output=True, text=True)
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertEqual(Path(result.stdout).resolve(), (base/'mini-project(2)').resolve())
@@ -100,7 +109,7 @@ class SlidesTests(unittest.TestCase):
     def test_default_name_and_structure_for_both_shells(self):
         for shell in ('bash', 'zsh'):
             with self.subTest(shell=shell), tempfile.TemporaryDirectory() as tmp:
-                command = 'source "$1"; cd "$2"; tex init --slides >/dev/null && printf "%s" "$PWD"'
+                command = 'source "$1"; cd "$2"; texv init --slides >/dev/null && printf "%s" "$PWD"'
                 result = subprocess.run([shell, '-c', command, '_', str(ROOT/'tex.sh'), tmp], capture_output=True, text=True)
                 self.assertEqual(result.returncode, 0, result.stderr)
                 project = Path(tmp)/'slides-project'
@@ -121,7 +130,7 @@ class SlidesTests(unittest.TestCase):
             self.assertFalse((existing/'main.tex').exists())
 
     def test_invalid_type_returns_status_in_zsh(self):
-        cmd = 'source "$1"; tex init --unknown >/dev/null; exit $?'
+        cmd = 'source "$1"; texv init --unknown >/dev/null; exit $?'
         result = subprocess.run(['zsh', '-c', cmd, '_', str(ROOT/'tex.sh')], capture_output=True, text=True)
         self.assertEqual(result.returncode, 2, result.stderr)
         self.assertNotIn('read-only variable', result.stderr)

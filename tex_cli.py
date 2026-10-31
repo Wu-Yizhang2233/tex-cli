@@ -6,11 +6,11 @@ import subprocess
 import sys
 
 HOME = Path(__file__).resolve().parent
-USAGE = '''Usage: tex <command>
-  tex init [--mini|--slides] [directory]   Create and enter a project
-  tex run [--xelatex] [main.tex]   Compile the current project
-  tex --help                      Show this help
-Existing names get a numbered suffix. Use command tex for the original TeX engine.'''
+USAGE = '''Usage: texv <command>
+  texv init [--mini|--slides] [directory]   Create and enter a project
+  texv run [--xelatex] [main.tex]   Compile the current project
+  texv --help                      Show this help
+Existing names get a numbered suffix.'''
 
 
 # Add new project types here; each type lists paths from the shared template.
@@ -35,7 +35,7 @@ def message(label, detail, color, stream):
 
 
 def init(args):
-    usage = ('Usage: tex init [--mini|--slides] [directory]\n'
+    usage = ('Usage: texv init [--mini|--slides] [directory]\n'
              'Defaults: latex-project (standard), mini-project (--mini), slides-project (--slides).\n'
              'Existing names get a numbered suffix.')
     if args and args[0] in ('-h', '--help'):
@@ -98,7 +98,7 @@ def init(args):
 
 def run(args):
     if args and args[0] in ('-h', '--help'):
-        print('Usage: tex run [--xelatex] [main.tex]\nBuild using the nearest project scripts/build_latex.sh.')
+        print('Usage: texv run [--xelatex] [main.tex]\nBuild using the nearest project scripts/build_latex.sh.')
         return 0
     current = Path.cwd()
     for root in (current, *current.parents):
@@ -109,7 +109,7 @@ def run(args):
             except OSError as exc:
                 message('Error:', f'Build failed: {exc}', '31', sys.stderr)
                 return 1
-    message('Error:', 'No LaTeX project found. Use tex init [directory] first.', '31', sys.stderr)
+    message('Error:', 'No LaTeX project found. Use texv init [directory] first.', '31', sys.stderr)
     return 1
 
 
@@ -121,7 +121,7 @@ def main(args):
         return init(args[1:])
     if args[0] == 'run':
         return run(args[1:])
-    message('Error:', f'Unknown command: {args[0]}. Use tex --help.', '31', sys.stderr)
+    message('Error:', f'Unknown command: {args[0]}. Use texv --help.', '31', sys.stderr)
     return 2
 
 
